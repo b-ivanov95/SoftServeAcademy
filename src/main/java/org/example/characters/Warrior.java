@@ -19,9 +19,9 @@ public class Warrior {
         return  health > 0;
     }
 
-    public void dealDamageTo(Warrior warrior) {
-        if(isAlive()) {
-           warrior.setHealth(warrior.getHealth() - attack);
+    public void receiveDamageFrom(Warrior warrior) {
+        if(warrior.isAlive()) {
+           this.setHealth(this.getHealth() - warrior.getAttack());
         }
     }
 

@@ -1,5 +1,7 @@
 package org.example.game;
 
+import org.example.characters.Army;
+import org.example.characters.Defender;
 import org.example.characters.Knight;
 import org.example.characters.Warrior;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,15 @@ class BattleTest {
                 Arguments.of(new Knight(), new Knight(), true));
     }
 
+    private static Stream<Arguments> fightScenariosArmies() {
+        return Stream.of(
+                Arguments.of(
+                        new Army().addUnits(Warrior::new, 5).addUnits(Knight::new, 10),
+                        new Army().addUnits(Knight::new, 5).addUnits(Warrior::new, 5),
+                        false),
+                Arguments.of(new Knight(), new Knight(), true));
+    }
+
     @ParameterizedTest
     @MethodSource("fightScenarios")
     void test1v1Battles(Warrior w1, Warrior w2, boolean expected) {
@@ -27,6 +38,13 @@ class BattleTest {
         assertEquals(expected, w1.isAlive());
         assertEquals(!expected, w2.isAlive());
     }
+
+    /*
+    @ParameterizedTest
+    @MethodSource("fightScenariosArmies")
+    void testArmyBattles() {
+        //:TODO create assertions for fight scenarios on armies
+    }*/
 
     @Test
     void test2v1battle() {
@@ -40,4 +58,6 @@ class BattleTest {
         assertTrue(w2.isAlive());
         assertFalse(k1.isAlive());
     }
+
+
 }
