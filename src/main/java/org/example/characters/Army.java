@@ -5,8 +5,8 @@ import java.util.function.Supplier;
 
 public class Army implements Iterable<Warrior> {
 
-    private Queue<Warrior> units;
-    private Iterator<Warrior> iterator;
+    private final Queue<Warrior> units;
+    private final Iterator<Warrior> iterator;
 
     public Army addUnits(Supplier<Warrior> factory, int numberOfUnits) {
         for (int i = 0; i < numberOfUnits; i++) {

@@ -10,6 +10,7 @@ public class Main {
         Army army1 = new Army().addUnits(Warrior::new, 2);
         Army army2 = new Army().addUnits(Knight:: new, 3);
         Battle.fight(army1,army2);
+
     }
 
 

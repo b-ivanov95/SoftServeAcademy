@@ -3,7 +3,7 @@ package org.example.characters;
 public class Warrior {
 
     private int health;
-    private int attack;
+    private final int attack;
 
     public Warrior() {
         this.health = 50;

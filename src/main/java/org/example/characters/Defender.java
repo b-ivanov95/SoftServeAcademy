@@ -12,7 +12,6 @@ public class Defender extends Warrior {
         }
     }
 
-
     public Defender() {
         super(60,3);
         this.defense = 2;
