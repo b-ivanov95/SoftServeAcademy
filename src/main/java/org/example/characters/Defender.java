@@ -1,23 +1,24 @@
 package org.example.characters;
 
+import org.example.characters.Interfaces.IWarrior;
+
 public class Defender extends Warrior {
 
-    private final int defense;
+    private static final int DEFENCE = 2;
 
     @Override
-    public void receiveDamageFrom(Warrior warrior) {
-        if(warrior.isAlive() && warrior.getAttack() > this.defense) {
-                this.setHealth(this.getHealth() - (warrior.getAttack() - this.defense));
-
+    public int getHitBy(IWarrior warrior) {
+        if(warrior.isAlive() && warrior.getAttack() > Defender.DEFENCE) {
+                receiveDamage(warrior.getAttack() - Defender.DEFENCE);
         }
+        return warrior.getAttack() - Defender.DEFENCE;
     }
 
     public Defender() {
         super(60,3);
-        this.defense = 2;
     }
 
     public int getDefense() {
-        return defense;
+        return DEFENCE;
     }
 }
