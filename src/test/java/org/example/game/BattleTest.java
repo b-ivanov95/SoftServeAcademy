@@ -1,9 +1,6 @@
 package org.example.game;
 
-import org.example.characters.Army;
-import org.example.characters.Defender;
-import org.example.characters.Knight;
-import org.example.characters.Warrior;
+import org.example.characters.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -28,8 +25,25 @@ class BattleTest {
     @MethodSource("fightScenariosArmies")
     void testArmyBattles(Army a1, Army a2, boolean expected) {
         assertEquals(expected, Battle.fight(a1,a2));
-        assertEquals(expected,a1.iterator().hasNext());
-        assertEquals(!expected, a2.iterator().hasNext());
+        assertEquals(expected,a1.hasNext());
+        assertEquals(!expected, a2.hasNext());
+    }
+    @Test
+    void testArmyHealerBattle() {
+        Army a1 = new Army();
+        Army a2 = new Army();
+        a1.addUnits(Lancer::new,7);
+        a1.addUnits(Vampire::new,3);
+        a1.addUnits(Healer::new,1);
+        a1.addUnits(Warrior::new,4);
+        a1.addUnits(Healer::new,1);
+        a1.addUnits(Defender::new,2);
+        a2.addUnits(Warrior::new,4);
+        a2.addUnits(Defender::new,4);
+        a2.addUnits(Healer::new,1);
+        a2.addUnits(Vampire::new,6);
+        a2.addUnits(Lancer::new,4);
+        assertTrue(Battle.fight(a1,a2));
     }
 
     @Test
@@ -107,6 +121,50 @@ class BattleTest {
                                             .addUnits(Warrior::new,1)
                                             .addUnits(Defender::new,1),
                         new Army().addUnits(Warrior::new, 5),
+                        false),
+                //Battle 10 [5x Defender 6x Vampire 7x Warrior]  vs [6x Warrior 6x Defender 6x Vampire]
+                Arguments.of(
+                        new Army().addUnits(Defender::new, 5)
+                                            .addUnits(Vampire::new,6)
+                                            .addUnits(Warrior::new,7),
+                        new Army().addUnits(Warrior::new, 6)
+                                  .addUnits(Defender::new,6)
+                                  .addUnits(Vampire::new,6),
+                        false),
+                //Battle 11
+                Arguments.of(
+                        new Army().addUnits(Defender::new, 2)
+                                .addUnits(Vampire::new,3)
+                                .addUnits(Warrior::new,4),
+                        new Army().addUnits(Warrior::new, 4)
+                                .addUnits(Defender::new,4)
+                                .addUnits(Vampire::new,3),
+                        false),
+                //Battle 12
+                Arguments.of(
+                        new Army().addUnits(Defender::new, 11)
+                                .addUnits(Vampire::new,3)
+                                .addUnits(Warrior::new,4),
+                        new Army().addUnits(Warrior::new, 4)
+                                .addUnits(Defender::new,4)
+                                .addUnits(Vampire::new,13),
+                        true),
+                //Battle 13
+                Arguments.of(
+                        new Army().addUnits(Lancer::new, 7)
+                                .addUnits(Vampire::new,3)
+                                .addUnits(Warrior::new,4)
+                                .addUnits(Defender::new,2),
+                        new Army().addUnits(Warrior::new, 4)
+                                .addUnits(Defender::new,4)
+                                .addUnits(Vampire::new,6)
+                                .addUnits(Lancer::new,4),
+                        true),
+                //Battle 14
+                Arguments.of(
+                        new Army().addUnits(Warrior::new, 2),
+                        new Army().addUnits(Lancer::new, 1)
+                                .addUnits(Warrior::new,1),
                         false));
 
     }
