@@ -1,10 +1,10 @@
 package org.example.characters;
 
-import org.example.characters.Interfaces.IArmyWarrior;
-import org.example.characters.Interfaces.IWarrior;
+import jdk.jshell.spi.SPIResolutionException;
+import org.example.characters.interfaces.IArmyWarrior;
+import org.example.characters.army.ArmyWarrior;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 public class Army implements Iterator<IArmyWarrior> {
 
@@ -40,18 +40,11 @@ public class Army implements Iterator<IArmyWarrior> {
 
     }
 
-    private ArmyWarrior wrap(IWarrior warrior) {
-        if (warrior instanceof Healer) {
-            return new ArmyHealer();
-        }
-        return new ArmyWarrior(warrior);
-    }
-
-    public Army addUnits(Supplier<IWarrior> factory, int numberOfUnits) {
+    public Army addUnits(WarriorType type, int numberOfUnits) {
         if (numberOfUnits < 1) {
             throw new IllegalArgumentException();
         }
-        ArmyWarrior currentWarrior = wrap(factory.get());
+        ArmyWarrior currentWarrior = type.getArmyInstance();
         if (head == null) {
             head = currentWarrior;
             head.setInCombat();
@@ -61,7 +54,7 @@ public class Army implements Iterator<IArmyWarrior> {
         }
 
         for (int i = 1; i < numberOfUnits; i++) {
-            ArmyWarrior newWarrior = wrap(factory.get());
+            ArmyWarrior newWarrior = type.getArmyInstance();
             currentWarrior.setNextWarrior(newWarrior);
             newWarrior.setPreviousWarrior(currentWarrior);
             currentWarrior = newWarrior;
@@ -76,12 +69,31 @@ public class Army implements Iterator<IArmyWarrior> {
 
         var myChampion = this.next();
         var enemyChampion = enemyArmy.next();
-        while (myChampion != null) {
-            myChampion.hit(enemyChampion);
-            myChampion = myChampion.getNextWarrior();
-        }
+
+        myChampion.hit(enemyChampion);
+        myChampion.useArmyEffect(enemyChampion);
+
     }
 
     public Army() {
+    }
+
+    public void burnDeadWarriors() {
+        while(head != null && !head.isAlive()) {
+            head = head.getNextWarrior();
+        }
+        var current = head;
+
+        while(current != null && current.getNextWarrior()!= null) {
+            if(!current.isAlive()) {
+                var previous = current.getPreviousWarrior();
+                var next = current.getNextWarrior();
+                previous.setNextWarrior(next);
+                next.setPreviousWarrior(previous);
+            }
+            current = current.getNextWarrior();
+        }
+        tail = current;
+
     }
 }

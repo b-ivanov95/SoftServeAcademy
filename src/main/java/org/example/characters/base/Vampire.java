@@ -1,6 +1,6 @@
-package org.example.characters;
+package org.example.characters.base;
 
-import org.example.characters.Interfaces.IWarrior;
+import org.example.characters.interfaces.IWarrior;
 
 public class Vampire extends Warrior{
 
@@ -12,7 +12,8 @@ public class Vampire extends Warrior{
 
     @Override
     public void hit(IWarrior warrior) {
-        int damageDealt = warrior.getHitBy(this);
+        warrior.getHitBy(this);
+        int damageDealt = warrior.getDamageReceived();
         double healingFactor = (double)VAMPIRISM/100;
         int finalHealing = (int) (damageDealt * healingFactor);
         this.setHealth(this.getHealth() + finalHealing);

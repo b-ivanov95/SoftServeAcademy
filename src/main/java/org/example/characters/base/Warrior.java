@@ -1,6 +1,6 @@
-package org.example.characters;
+package org.example.characters.base;
 
-import org.example.characters.Interfaces.IWarrior;
+import org.example.characters.interfaces.IWarrior;
 
 public class Warrior implements IWarrior {
 
@@ -8,6 +8,7 @@ public class Warrior implements IWarrior {
 
     private int maxHealth;
     private final int attack;
+    private int damageReceived;
 
     public Warrior() {
         this.health = 50;
@@ -15,7 +16,7 @@ public class Warrior implements IWarrior {
         this.attack = 5;
     }
 
-    protected Warrior(int health, int attack) {
+    public Warrior(int health, int attack) {
         this.health = health;
         this.attack = attack;
         this.maxHealth = health;
@@ -25,15 +26,20 @@ public class Warrior implements IWarrior {
         return  health > 0;
     }
 
-    public int getHitBy(IWarrior warrior) {
+    public void getHitBy(IWarrior warrior) {
         if(warrior.isAlive()) {
            receiveDamage(warrior.getAttack());
         }
-        return warrior.getAttack();
+    }
+
+    @Override
+    public int getDamageReceived() {
+        return damageReceived;
     }
 
     public void receiveDamage(int damage) {
         this.setHealth(this.getHealth() - damage);
+        this.damageReceived = damage;
     }
 
     @Override

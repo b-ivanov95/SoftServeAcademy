@@ -1,7 +1,7 @@
-package org.example.characters;
+package org.example.characters.army;
 
-import org.example.characters.Interfaces.IArmyWarrior;
-import org.example.characters.Interfaces.IWarrior;
+import org.example.characters.interfaces.IArmyWarrior;
+import org.example.characters.interfaces.IWarrior;
 
 public class ArmyWarrior implements IArmyWarrior {
 
@@ -47,15 +47,25 @@ public class ArmyWarrior implements IArmyWarrior {
     }
 
     @Override
-    public void hit(IWarrior warrior) {
-        if(this.inCombat) {
-            this.warrior.hit(warrior);
+    public void useArmyEffect(IArmyWarrior enemy) {
+        if (this.getNextWarrior() != null) {
+            this.getNextWarrior().useArmyEffect(enemy);
         }
+    }
+
+    @Override
+    public void hit(IWarrior warrior) {
+        this.warrior.hit(warrior);
     }
 
     @Override
     public void receiveDamage(int damage) {
         this.warrior.receiveDamage(damage);
+    }
+
+    @Override
+    public int getDamageReceived() {
+        return warrior.getDamageReceived();
     }
 
     @Override
@@ -69,8 +79,8 @@ public class ArmyWarrior implements IArmyWarrior {
     }
 
     @Override
-    public int getHitBy(IWarrior warrior) {
-        return this.warrior.getHitBy(warrior);
+    public void getHitBy(IWarrior warrior) {
+        this.warrior.getHitBy(warrior);
     }
 
     @Override
