@@ -1,25 +1,25 @@
 package demo;
 
-import org.example.characters.*;
+import org.example.characters.Army;
+import org.example.characters.WarriorType;
+import org.example.characters.base.*;
+import org.example.characters.interfaces.IWarrior;
 import org.example.game.Battle;
+import org.example.items.IWeapon;
+import org.example.items.WeaponType;
 
 public class Main {
     public static void main(String[] args) {
 
-        Army a1 = new Army();
-        Army a2 = new Army();
-        a1.addUnits(WarriorType.HEALER,5);
-        a2.addUnits(WarriorType.HEALER,5);
+        Army myArmy = new Army();
+        myArmy.addUnits(WarriorType.BERSERKER, 1);
+        myArmy.addUnits(WarriorType.HEALER, 1);
 
-        boolean result = Battle.straightFight(a1,a2);
-        System.out.println(result);
-
-
-
-
-
-
+        Army enemyArmy = new Army();
+        enemyArmy.addUnits(WarriorType.WARRIOR, 3);
+        Battle.fight(myArmy,enemyArmy);
     }
 
-
 }
+
+

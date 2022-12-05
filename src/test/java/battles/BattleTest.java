@@ -1,8 +1,10 @@
-package org.example.game;
+package battles;
 
 import org.example.characters.*;
 import org.example.characters.base.Knight;
 import org.example.characters.base.Warrior;
+import org.example.game.Battle;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,7 +19,7 @@ class BattleTest {
     @ParameterizedTest
     @MethodSource("fightScenarios")
     void test1v1Battles(Warrior w1, Warrior w2, boolean expected) {
-        assertEquals(expected, Battle.fight(w1, w2));
+        Assertions.assertEquals(expected, Battle.fight(w1, w2));
         assertEquals(expected, w1.isAlive());
         assertEquals(!expected, w2.isAlive());
     }

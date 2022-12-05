@@ -1,14 +1,18 @@
 package org.example.characters;
 
-import jdk.jshell.spi.SPIResolutionException;
 import org.example.characters.interfaces.IArmyWarrior;
 import org.example.characters.army.ArmyWarrior;
+import org.example.items.IWeapon;
 
 import java.util.*;
 
 public class Army implements Iterator<IArmyWarrior> {
 
     private ArmyWarrior tail;
+
+    public ArmyWarrior getHead() {
+        return head;
+    }
 
     private ArmyWarrior head;
 
@@ -61,7 +65,6 @@ public class Army implements Iterator<IArmyWarrior> {
         }
         tail = currentWarrior;
 
-
         return this;
     }
 
@@ -71,21 +74,41 @@ public class Army implements Iterator<IArmyWarrior> {
         var enemyChampion = enemyArmy.next();
 
         myChampion.hit(enemyChampion);
-        myChampion.useArmyEffect(enemyChampion);
+        myChampion.useArmyEffect(enemyArmy);
 
+    }
+
+    public boolean contains(WarriorType type) {
+        //TODO: implement for Warlord mechanic
+        return false;
     }
 
     public Army() {
     }
 
-    public void burnDeadWarriors() {
-        while(head != null && !head.isAlive()) {
+    public void equipWarriorAtPosition(int position, IWeapon weapon) {
+        if (position == 0) {
+            head.equipWeapon(weapon);
+            return;
+        }
+        ArmyWarrior current = head;
+
+        for (int i = 0; i < position; i++) {
+            current = current.getNextWarrior();
+
+        }
+        current.equipWeapon(weapon);
+
+    }
+
+    public void removeDeadWarriors() {
+        while (head != null && !head.isAlive()) {
             head = head.getNextWarrior();
         }
         var current = head;
 
-        while(current != null && current.getNextWarrior()!= null) {
-            if(!current.isAlive()) {
+        while (current != null && current.getNextWarrior() != null) {
+            if (!current.isAlive()) {
                 var previous = current.getPreviousWarrior();
                 var next = current.getNextWarrior();
                 previous.setNextWarrior(next);
@@ -95,5 +118,18 @@ public class Army implements Iterator<IArmyWarrior> {
         }
         tail = current;
 
+    }
+
+    public ArmyWarrior removeHead() {
+        if (head == null) {
+            return head;
+        }
+        ArmyWarrior temp = head;
+        if (head.getNextWarrior() != null) {
+            var tempNext = temp.getNextWarrior();
+            head = tempNext;
+            head.setPreviousWarrior(null);
+        }
+        return temp;
     }
 }

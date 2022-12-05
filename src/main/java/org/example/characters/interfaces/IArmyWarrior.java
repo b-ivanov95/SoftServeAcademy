@@ -1,8 +1,12 @@
 package org.example.characters.interfaces;
 
+import org.example.characters.Army;
+
 public interface IArmyWarrior extends IWarrior {
 
     boolean isInCombat();
+
+     void setInCombat();
 
     IWarrior getWarrior();
 
@@ -10,5 +14,5 @@ public interface IArmyWarrior extends IWarrior {
 
     IArmyWarrior getPreviousWarrior();
 
-    void useArmyEffect(IArmyWarrior enemy);
+    void useArmyEffect(Army army);
 }

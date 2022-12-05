@@ -1,5 +1,7 @@
 package org.example.characters.interfaces;
 
+import org.example.items.IWeapon;
+
 public interface IWarrior {
     void hit(IWarrior warrior);
 
@@ -13,9 +15,13 @@ public interface IWarrior {
 
     int getHealth();
 
+    void equipWeapon(IWeapon weapon);
+
     default boolean isAlive() {
         return getHealth() > 0;
     }
 
     int getAttack();
+
+    void setAttack(int attack);
 }

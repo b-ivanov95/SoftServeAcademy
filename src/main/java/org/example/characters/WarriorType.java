@@ -3,13 +3,13 @@ package org.example.characters;
 
 import org.example.characters.army.ArmyHealer;
 import org.example.characters.army.ArmyLancer;
+import org.example.characters.army.ArmyPriest;
 import org.example.characters.army.ArmyWarrior;
 import org.example.characters.base.*;
 
 public enum WarriorType {
-    
+
     WARRIOR {
-        
         @Override
         public Warrior getInstance() {
             return new Warrior();
@@ -22,20 +22,18 @@ public enum WarriorType {
 
     },
     KNIGHT {
-
         @Override
         public Warrior getInstance() {
-            return new Warrior(50,7);
+            return new Warrior(50, 7);
         }
 
         @Override
         public ArmyWarrior getArmyInstance() {
-            return new ArmyWarrior(new Warrior(50,7));
+            return new ArmyWarrior(new Warrior(50, 7));
         }
 
     },
-    DEFENDER{
-
+    DEFENDER {
         @Override
         public Warrior getInstance() {
             return new Defender();
@@ -47,8 +45,7 @@ public enum WarriorType {
         }
 
     },
-    VAMPIRE{
-
+    VAMPIRE {
         @Override
         public Warrior getInstance() {
             return new Vampire();
@@ -60,8 +57,7 @@ public enum WarriorType {
         }
 
     },
-    LANCER{
-
+    LANCER {
         @Override
         public Warrior getInstance() {
             return new Lancer();
@@ -73,8 +69,7 @@ public enum WarriorType {
         }
 
     },
-    HEALER{
-
+    HEALER {
         @Override
         public Warrior getInstance() {
             return new Healer();
@@ -85,11 +80,35 @@ public enum WarriorType {
             return new ArmyHealer();
         }
 
+    },
+    BERSERKER {
+
+        @Override
+        public Warrior getInstance() {
+            return new Berserker();
+        }
+
+        @Override
+        public ArmyWarrior getArmyInstance() {
+            return new ArmyWarrior(new Berserker());
+        }
+    },
+    PRIEST {
+
+        @Override
+        public Warrior getInstance() {
+            return new Priest();
+        }
+
+        @Override
+        public ArmyWarrior getArmyInstance() {
+            return new ArmyPriest();
+        }
     };
-    
+
     public abstract Warrior getInstance();
-    
+
     public abstract ArmyWarrior getArmyInstance();
-    
-    
+
+
 }

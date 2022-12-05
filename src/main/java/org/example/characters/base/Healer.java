@@ -11,9 +11,10 @@ public class Healer extends Warrior  {
 
     @Override
     public void hit(IWarrior enemy) {
-        if(enemy instanceof Healer || enemy instanceof ArmyHealer) {
+        if((enemy instanceof Healer || enemy instanceof ArmyHealer) && (this.getAttack() <= 0 && enemy.getAttack() <= 0)) {
             throw new IllegalStateException("Cannot fight 2 Healers! Endless fight detected...");
         }
+        super.hit(enemy);
     }
 
 

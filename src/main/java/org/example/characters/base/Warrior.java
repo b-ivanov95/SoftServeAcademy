@@ -1,34 +1,30 @@
 package org.example.characters.base;
 
 import org.example.characters.interfaces.IWarrior;
+import org.example.items.IWeapon;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Warrior implements IWarrior {
-
-    private int health;
-
-    private int maxHealth;
-    private final int attack;
+    private int health = 50;
+    private int startHealth = 50;
+    private int attack = 5;
     private int damageReceived;
 
-    public Warrior() {
-        this.health = 50;
-        this.maxHealth = 50;
-        this.attack = 5;
-    }
+    protected Collection<IWeapon> inventory = new ArrayList<>();
+
+    public Warrior() {}
 
     public Warrior(int health, int attack) {
         this.health = health;
         this.attack = attack;
-        this.maxHealth = health;
-    }
-
-    public boolean isAlive() {
-        return  health > 0;
+        this.startHealth = health;
     }
 
     public void getHitBy(IWarrior warrior) {
-        if(warrior.isAlive()) {
-           receiveDamage(warrior.getAttack());
+        if (warrior.isAlive()) {
+            receiveDamage(warrior.getAttack());
         }
     }
 
@@ -52,8 +48,25 @@ public class Warrior implements IWarrior {
         return health;
     }
 
+    @Override
+    public void equipWeapon(IWeapon weapon) {
+        inventory.add(weapon);
+        setHealth(this.health + weapon.getHealthBonus());
+        setAttack(this.attack + weapon.getAttackBonus());
+    }
+
     public void setHealth(int health) {
-        this.health = Math.min(health,this.maxHealth);
+        if (this.inventory.isEmpty()) {
+            this.health = Math.min(health, this.startHealth);
+        } else {
+            int maxHealth = startHealth + inventory.stream().mapToInt(IWeapon::getHealthBonus).sum();
+            this.health = Math.min(maxHealth,health);
+        }
+    }
+
+    @Override
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 
     public int getAttack() {
